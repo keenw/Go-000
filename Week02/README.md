@@ -96,9 +96,9 @@
   
 #### 1.2 对golang官方库实现的扩展pkg/errors
   扩展errors支持：https://github.com/pkg/errors
+  
   pkg/errors提供了对官方库error的包装，除了提供错误信息，还可以跟踪报错的堆栈信息
-  1.提供Warp方法，可以将堆栈信息保存起来
-  2.
+  
   
 
 #### 1.3 golang的错误类型处理的姿势
