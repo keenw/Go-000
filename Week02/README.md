@@ -146,3 +146,48 @@
   5.顶层再使用errors.Cause获取root error(根因)，再进行和sentinel error的判断
 
   6.在业务系统应用程序中，对外使用error code(统一错误码)返回给外部
+
+
+#### 1.5 课后作业
+```
+
+    var (
+    	ErrDataNotFound = errors.New("record not found")
+    )
+
+    type User struct {
+        Id uint64 `json:"Id"`
+        Name string `json:"name"`
+        Age  int32  `json:"age"`
+    }
+
+    type Dao interface {
+        Get(id uint64) interface{}
+        List() interface{}
+        Create() 
+        Update()
+        Delete(id uint64) 
+    }
+
+    type UserDao struct {}
+    
+    // Dao层获取到底层错误，使用errors的Wrap进行包装
+    fuc(user *UserDao) Get(id uint64) (*User, error) {
+        user := User{}
+        err := db.Where("id = ?",id).Find(user).Error
+        
+        if errors.Is(err,sql.ErrNoRows){
+            retrun errors.Wrap(err,fmt.Sprintf("find user null,user id: %v",id))
+        }
+        return &user,nil
+    }
+
+    // 业务层获取到错误直接往上层抛
+    type UserService struct {}
+    
+    func (s *Service) FindUserByID(userID int) (*model.User, error) {
+        return dao.FindUserByID(userID)
+    }
+    
+    
+```
